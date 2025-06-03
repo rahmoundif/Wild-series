@@ -30,10 +30,15 @@ const programs = [
 import type { RequestHandler } from "express";
 
 
-const browse: RequestHandler = async (req, res) => {
-  const programsFromDB = await programRepository.readAll();
+const browse: RequestHandler = async (req, res, next) => {
+  try{
+    const programsFromDB = await programRepository.readAll();
+    res.json(programsFromDB);
 
-  res.json(programsFromDB);
+   } catch (err) {
+    next(err);
+  }
+
 };
 
 const read: RequestHandler = (req, res) => {
